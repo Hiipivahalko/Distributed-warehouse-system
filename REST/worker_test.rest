@@ -1,0 +1,5 @@
+GET http://localhost:4001/api/workers/inventory
+###
+
+
+GET http://localhost:4000/api/inventory

@@ -14,7 +14,7 @@ Inventory DB is now running at `http://localhost:5000/`, see for example at `htt
 `cd order-service`
 `npx json-server --port=5001 --watch dev_db.json`
 
-Inventory DB is now running at `http://localhost:5001/`, see for example at `http://localhost:5001/orders`
+Order DB is now running at `http://localhost:5001/`, see for example at `http://localhost:5001/orders`
 
 ### start order service
 
