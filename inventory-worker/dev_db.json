@@ -1,0 +1,36 @@
+{
+    "warehouses": [
+      {
+        "id": 1,
+        "location": "Helsinki",
+        "items": [
+            {
+                "id": 10983,
+                "name": "electric bicycle",
+                "amount": 100
+            },
+            {
+                "id": 29988,
+                "name": "electric jetpack",
+                "amount": 100
+            }
+        ]
+      },
+      {
+        "id": 2,
+        "location": "Oulu",
+        "items": [
+            {
+                "id": 10983,
+                "name": "electric bicycle",
+                "amount": 2
+            },
+            {
+                "id": 3333,
+                "name": "tango shoes",
+                "amount": 3000
+            }
+        ]
+      }
+    ]
+  }

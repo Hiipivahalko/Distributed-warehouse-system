@@ -2,6 +2,13 @@
 
 ## set up dev environment
 
+### start inventory database for development
+
+`cd inventory-worker`
+`npx json-server --port=5000 --watch dev_db.json`
+
+Inventory DB is now running at `http://localhost:5000/`, see for example at `http://localhost:5000/warehouses`
+
 ### start order service
 
 `cd order-service`
