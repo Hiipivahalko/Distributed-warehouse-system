@@ -1,0 +1,38 @@
+{
+    "orders": [
+      {
+        "id": 1,
+        "user": "Donald Duck",
+        "location": "Helsinki",
+        "time": "2021-11-16T13:16:20.514Z",
+        "items": [
+            {
+                "id": 10983,
+                "name": "electric bicycle",
+                "amount": 1,
+                "warehouse_id": 1
+            },
+            {
+                "id": 29988,
+                "name": "tango shoes",
+                "amount": 10,
+                "warehouse_id": 2
+            }
+        ]
+      },
+      {
+        "id": 2,
+        "user": "Mickey Mouse",
+        "location": "Oulu",
+        "time": "2021-11-16T09:00:00.000Z",
+        "items": [
+            {
+                "id": 10983,
+                "name": "electric bicycle",
+                "amount": 1,
+                "warehouse_id": 2
+            }
+        ]
+      }
+    ]
+  }
