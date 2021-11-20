@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server -p5000 --watch dev_db.json"
   },
   "author": "",
   "license": "MIT",
@@ -14,6 +15,7 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "json-server": "^0.17.0",
     "nodemon": "^2.0.15"
   }
 }

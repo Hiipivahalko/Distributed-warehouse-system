@@ -5,7 +5,10 @@
 ### start inventory database for development
 
 `cd inventory-worker`
-`npx json-server --port=5000 --watch dev_db.json`
+
+`npm install`
+
+`npm run server`
 
 Inventory DB is now running at `http://localhost:5000/`, see for example at `http://localhost:5000/warehouses`
 
