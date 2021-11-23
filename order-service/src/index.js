@@ -1,5 +1,5 @@
-import axios from 'axios'
 const express = require('express')
+const axios = require('axios')
 const app = express()
 
 
@@ -21,7 +21,7 @@ app.post('/api/order', (request, response) => {
   }).catch( () => response.send(false))
 })
 
-const PORT = 5001
+const PORT = 5000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
