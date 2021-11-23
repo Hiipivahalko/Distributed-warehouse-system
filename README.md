@@ -2,16 +2,6 @@
 
 ## set up dev environment
 
-### start inventory database for development
-
-`cd inventory-worker`
-
-`npm install`
-
-`npm run server`
-
-Inventory DB is now running at `http://localhost:5000/`, see for example at `http://localhost:5000/warehouses`
-
 ### start order database for development
 
 `cd order-service`
@@ -42,6 +32,17 @@ Backend is running at `http://localhost:4000`.
 `npm run dev`
 
 Backend is running at `http://localhost:4001`.
+
+OPTIONALLY: if mongoDb do not work, set up local db
+
+`cd inventory-worker`
+
+`npm install`
+
+`npm run server`
+
+Inventory DB is now running at `http://localhost:5000/`, see for example at `http://localhost:5000/warehouses`
+
 
 ### start frontend
 `cd warehouse-front`

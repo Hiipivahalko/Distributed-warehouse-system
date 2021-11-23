@@ -1,6 +1,13 @@
 const express = require('express')
+const cors = require('cors')
 const axios = require('axios')
 const app = express()
+
+app.use(express.static('build'))
+app.use(cors())
+app.use(express.json())
+
+const Warehouse = require('./models/warehouse')
 
 
 app.get('/', (request, response) => {
@@ -9,9 +16,11 @@ app.get('/', (request, response) => {
 
 app.get('/api/workers/inventory', async (request, response) => {
   try {
-    const warehouses = await axios.get(`http://localhost:5000/warehouses`)
+    //const warehouses = await axios.get(`http://localhost:5000/warehouses`)
+    const warehouses = await Warehouse.find( {} )
+    console.log(warehouses);
     let res = []
-    for (let warehouse of warehouses.data) {
+    for (let warehouse of warehouses) {
       let items = warehouse.items
       for (let item of items) {
         res.push(item)
@@ -19,9 +28,11 @@ app.get('/api/workers/inventory', async (request, response) => {
     }
     console.log(res)
     response.send(res)
+    return
   } catch (error) {
     console.log(error.message)
   }
+  response.send({error: 'some error happened on /api/workers/inventory'})
 })
 
 app.post('/api/workers/items', (request, response) => {
