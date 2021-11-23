@@ -1,10 +1,28 @@
 const express = require('express')
 const axios = require('axios')
+const cors = require('cors')
 const app = express()
+
+const Orders = require('./models/orders')
+
+app.use(express.static('build'))
+app.use(cors())
+app.use(express.json())
+
 
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
+})
+
+app.get('/api/orders', async (req, res) => {
+  try {
+    const all_orders = await Orders.find( {} )
+    return res.json(all_orders)
+  } catch (err) {
+    console.log(err.message);
+    return res.json({error: 'error happened'})
+  }
 })
 
 app.post('/api/order', (request, response) => {
