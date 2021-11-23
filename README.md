@@ -25,7 +25,7 @@ Order DB is now running at `http://localhost:5001/`, see for example at `http://
 `npm install`
 `npm run dev`
 
-Backend is running at `http://localhost:3001`.
+Backend is running at `http://localhost:5000`.
 
 ### start inventory service
 
