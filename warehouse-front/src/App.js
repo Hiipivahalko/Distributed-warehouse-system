@@ -11,7 +11,9 @@ const App = () => {
   const find_products = async () => {
     try {
       console.log(`here`);
-      const result = await axios.get(`${process.env.REACT_APP_ORDER_SERVICE_URL}/warehouses/`);
+      console.log('ENV HERE: ', process.env.REACT_APP_INVENTORY_SERVICE_URL, process.env.REACT_APP_ORDER_SERVICE_URL)
+      const result = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/inventory/`);
+      console.log(result.data)
       setProducts(result.data);
     } catch (err) {
       console.log(err.message);

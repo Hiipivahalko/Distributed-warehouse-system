@@ -16,7 +16,6 @@ app.get('/', (request, response) => {
 
 app.get('/api/workers/inventory', async (request, response) => {
   try {
-    //const warehouses = await axios.get(`http://localhost:5000/warehouses`)
     const warehouses = await Warehouse.find( {} )
     console.log(warehouses);
     let res = []
