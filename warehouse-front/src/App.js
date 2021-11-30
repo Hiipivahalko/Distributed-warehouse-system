@@ -12,7 +12,7 @@ const App = () => {
     try {
       console.log(`here`);
       console.log('ENV HERE: ', process.env.REACT_APP_INVENTORY_SERVICE_URL, process.env.REACT_APP_ORDER_SERVICE_URL)
-      const result = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/inventory/`);
+      const result = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/products/`);
       console.log('result status', result.status);
       if (result.status >= 400) {
         console.log(result.data);

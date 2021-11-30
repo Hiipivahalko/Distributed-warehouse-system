@@ -10,7 +10,6 @@ productsRouter.get('/', async (request, response) => {
     try {
       const products = await Products.find( {} )
       console.log("Returning items")
-      console.log(products)
       response.send(products)
       return
     } catch (error) {

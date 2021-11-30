@@ -14,7 +14,7 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
-app.get('/api/inventory', async (request, response) => {
+app.get('/api/products', async (request, response) => {
   try {
     const result = await axios.get('http://inventory-worker:4001/api/products')
     console.log("service received request")
@@ -25,7 +25,7 @@ app.get('/api/inventory', async (request, response) => {
   }
 })
 
-app.post('/api/inventory', (request, response) => {
+app.post('/api/products', (request, response) => {
   const product = request.body
   console.log("service sending product", product)
   axios.post('http://inventory-worker:4001/api/products', product)
