@@ -13,8 +13,15 @@ const App = () => {
       console.log(`here`);
       console.log('ENV HERE: ', process.env.REACT_APP_INVENTORY_SERVICE_URL, process.env.REACT_APP_ORDER_SERVICE_URL)
       const result = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/inventory/`);
-      console.log(result.data)
-      setProducts(result.data);
+      console.log('result status', result.status);
+      if (result.status >= 400) {
+        console.log(result.data);
+      } else {
+        
+        console.log('result_data:', result.data)
+        setProducts(result.data);
+      }
+      
     } catch (err) {
       console.log(err.message);
     }
@@ -32,11 +39,7 @@ const App = () => {
   }
 
   /*
-  <ul>
-            {products.map(p => 
-              <li key={p.id}>{p.location}</li>  
-            )}
-          </ul>
+  
   */
 
   return (
@@ -46,7 +49,11 @@ const App = () => {
       {products ? 
         <>
           <h3>Warehouses:</h3>
-          
+          <ul>
+            {products.map(p => 
+              <li key={p.id}>{p.location}</li>  
+            )}
+          </ul>
         </>
         : <p>We dont have products yet</p>
       }
