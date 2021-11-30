@@ -16,7 +16,7 @@ app.get('/', (request, response) => {
 
 app.get('/api/inventory', async (request, response) => {
   try {
-    const result = await axios.get('http://inventory-worker:4001/api/workers/inventory')
+    const result = await axios.get('http://inventory-worker:4001/api/products')
     return response.json(result.data)
   } catch( error) {
     console.log('error:', error.message);
