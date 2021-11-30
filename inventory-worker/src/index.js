@@ -8,6 +8,7 @@ app.use(cors())
 app.use(express.json())
 
 const Warehouse = require('./models/warehouse')
+const { waitForDebugger } = require('inspector')
 
 
 app.get('/', (request, response) => {
@@ -17,7 +18,7 @@ app.get('/', (request, response) => {
 app.get('/api/workers/inventory', async (request, response) => {
   try {
     const warehouses = await Warehouse.find( {} )
-    console.log(warehouses);
+    console.log("Returning items")
     let res = []
     for (let warehouse of warehouses) {
       let items = warehouse.items
@@ -25,7 +26,6 @@ app.get('/api/workers/inventory', async (request, response) => {
         res.push(item)
       }
     }
-    console.log(res)
     response.send(res)
     return
   } catch (error) {
