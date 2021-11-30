@@ -29,7 +29,6 @@ services:
         - MONGO_URI=${MONGO_URI}
     
     inventory-worker:
-      container_name: inventory-worker
       build:
         context: ./inventory-worker
         dockerfile: Dockerfile
@@ -37,10 +36,12 @@ services:
        - ./inventory-worker:/usr/app
        - /usr/app/node_modules
       ports:
-        - 4001:4001
+        - 4001
       environment:
         - CHOKIDAR_USEPOLLING=true
         - MONGO_URI=${MONGO_URI}
+      deploy:
+        replicas: 3
 
     order-service:
       container_name: order-service
