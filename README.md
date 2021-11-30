@@ -17,3 +17,10 @@ docker-compose up
 ```
 Frontend application is then running at `http://localhost:3000`.
 
+## scaling
+
+by default, 3 inventory-workers are created. To change the number of workers (to for example 10), use the following command:
+
+```
+docker-compose up --scale inventory-worker=10
+```
