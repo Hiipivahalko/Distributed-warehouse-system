@@ -51,7 +51,7 @@ const App = () => {
           <h3>Warehouses:</h3>
           <ul>
             {products.map(p => 
-              <li key={p.id}>{p.location}</li>  
+              <li key={p._id}>{p.location}</li>  
             )}
           </ul>
         </>

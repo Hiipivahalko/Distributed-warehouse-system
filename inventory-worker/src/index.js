@@ -2,12 +2,24 @@ const express = require('express')
 const cors = require('cors')
 const axios = require('axios')
 const app = express()
+const mongoose = require('mongoose')
 
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 
-const Warehouse = require('./models/warehouse')
+const Products = require('./models/products')
+
+const url = process.env.MONGO_URI
+
+mongoose.connect(url)
+  .then(result => {
+    console.log('connected to MongoDB')
+    
+  })
+  .catch((error) => {
+    console.log('error connecting to MongoDB:', error.message)
+  })
 
 
 app.get('/', (request, response) => {
@@ -16,7 +28,7 @@ app.get('/', (request, response) => {
 
 app.get('/api/workers/inventory', async (request, response) => {
   try {
-    const warehouses = await Warehouse.find( {} )
+    const warehouses = await Products.find( {} )
     console.log(warehouses);
     let res = []
     for (let warehouse of warehouses) {
