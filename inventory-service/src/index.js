@@ -17,6 +17,7 @@ app.get('/', (request, response) => {
 app.get('/api/inventory', async (request, response) => {
   try {
     const result = await axios.get('http://inventory-worker:4001/api/products')
+    console.log("service received request")
     return response.json(result.data)
   } catch( error) {
     console.log('error:', error.message);
@@ -24,14 +25,21 @@ app.get('/api/inventory', async (request, response) => {
   }
 })
 
-app.post('/api/inventory/items', (request, response) => {
-  axios.post('/api/workers/items', {
-    params: {
-      items: request.params.items
-    }
+app.post('/api/inventory', (request, response) => {
+  const product = request.body
+  console.log("service sending product", product)
+  axios.post('http://inventory-worker:4001/api/products', product)
+  .then(result => {
+    console.log("service succeeded in saving")
+    response.status(204).end()
   })
-  .then( items => response.send(items))
-  .catch( () => response.send({}))
+  .catch( (err) =>  {
+    console.log(err)
+    response.json({
+      error: "error when saving product",
+      product: request.body
+    }).status(403)
+  })
 })
 
 const PORT = 4000

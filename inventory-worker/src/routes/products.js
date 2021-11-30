@@ -19,16 +19,34 @@ productsRouter.get('/', async (request, response) => {
     response.send({error: 'some error happened on /api/workers/inventory'})
   })
   
-  productsRouter.post('/', (request, response) => {
-    //TODO:Get items from database
-    //const items
-    if(items.length == request.params.items.length) {
-      //TODO:Remove items from database
-      response.send(items)
+  productsRouter.post('/', async (request, response) => {
+    const product = request.body
+
+    const existingProducts = await Products.find( { name: product.name } )
+
+    if (!existingProducts || !existingProducts.length) {
+      const productToSave = new Products({
+        name: product.name,
+        locations: product.locations
+      })
+
+      await productToSave.save()
+        .then(result => {
+          console.log("worker saved the item")
+          response.status(204).end()
+        })
+
     } else {
-      response.send({})
+
+      await Products.updateMany(
+          { name: product.name },
+          {locations: product.locations}
+        ).then(result => {
+          console.log("worker updated item(s) with the same name")
+          response.status(204).end()
+      })
+
     }
-    
   })
 
   module.exports = productsRouter
