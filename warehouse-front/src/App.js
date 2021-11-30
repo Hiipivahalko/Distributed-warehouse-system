@@ -31,6 +31,14 @@ const App = () => {
     console.log('data fetched');
   }
 
+  /*
+  <ul>
+            {products.map(p => 
+              <li key={p.id}>{p.location}</li>  
+            )}
+          </ul>
+  */
+
   return (
     <div>
       <h1>DisSys Warehouse</h1>
@@ -38,11 +46,7 @@ const App = () => {
       {products ? 
         <>
           <h3>Warehouses:</h3>
-          <ul>
-            {products.map(p => 
-              <li key={p.id}>{p.location}</li>  
-            )}
-          </ul>
+          
         </>
         : <p>We dont have products yet</p>
       }
