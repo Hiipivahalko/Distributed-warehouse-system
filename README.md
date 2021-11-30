@@ -2,51 +2,25 @@
 
 ## set up dev environment
 
-### start order database for development
+Install docker
 
-`cd order-service`
-`npx json-server --port=5001 --watch dev_db.json`
+Clone the repositoy
 
-Order DB is now running at `http://localhost:5001/`, see for example at `http://localhost:5001/orders`
-
-### start order service
-
-`cd order-service`
-`npm install`
-`npm run dev`
-
-Backend is running at `http://localhost:5000`.
-
-### start inventory service
-
-`cd inventory-service`
-`npm install`
-`npm run dev`
-
-Backend is running at `http://localhost:4000`.
-
-### start inventory worker
-
-`cd inventory-worker`
-`npm install`
-`npm run dev`
-
-Backend is running at `http://localhost:4001`.
-
-OPTIONALLY: if mongoDb do not work, set up local db
-
-`cd inventory-worker`
-
-`npm install`
-
-`npm run server`
-
-Inventory DB is now running at `http://localhost:5000/`, see for example at `http://localhost:5000/warehouses`
-
-
-### start frontend
-`cd warehouse-front`
-`npm install`
-`npm start`
-
+Set up a .env file in project root:
+```
+REACT_APP_INVENTORY_SERVICE_URL=http://localhost:4000
+MONGO_URI=mongodb+srv://USER:PASSWORD@MONGO_DATABASE_URL
+```
+Start all containers by giving command in repository root:
+```
+docker-compose up
+```
 Frontend application is then running at `http://localhost:3000`.
+
+## scaling
+
+by default, 3 inventory-workers are created. To change the number of workers (to for example 10), use the following command:
+
+```
+docker-compose up --scale inventory-worker=10
+```
