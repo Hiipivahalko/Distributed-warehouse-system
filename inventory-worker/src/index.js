@@ -21,6 +21,7 @@ mongoose.connect(url)
     
   })
   .catch((error) => {
+    console.log('mongoURL:', url);
     console.log('error connecting to MongoDB:', error.message)
   })
 const { waitForDebugger } = require('inspector')
@@ -32,6 +33,9 @@ app.get('/', (request, response) => {
 
 // routes
 app.use('/api/products', productsRouter)
+
+app.use(middleware.unkownEndpoint)
+app.use(middleware.errorHandler)
 
 
 const PORT = 4001

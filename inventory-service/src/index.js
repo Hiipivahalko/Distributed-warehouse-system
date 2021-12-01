@@ -46,6 +46,33 @@ app.post('/api/products', (request, response) => {
   })
 })
 
+app.post('/api/products/init', (request, response) => {
+  console.log("service saving intit products to mongoDB")
+
+  axios.post('http://inventory-worker:4001/api/products/init', {})
+    .then(result => {
+      return response.json(result.data).status(204)
+    })
+    .catch(error => {
+      console.error(error.message)
+      return response.status(403).json({error: error.message})
+    })
+})
+
+app.delete('/api/products/all', async (request, response) => {
+  console.log('service deleting all items from mongoDB');
+  axios.delete('http://inventory-worker:4001/api/products/all')
+    .then(result => {
+      return response.json(result.data).status(200)
+    })
+    .catch(error => {
+      return response.status(403).json({error: error.message})
+    })
+})
+
+app.use(middleware.unkownEndpoint)
+app.use(middleware.errorHandler)
+
 const PORT = 4000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

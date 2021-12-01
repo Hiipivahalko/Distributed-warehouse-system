@@ -20,3 +20,24 @@ Content-Type: application/json
 
 
 GET http://localhost:5001/api/orders
+
+
+
+####
+# unknow endpoint test
+
+GET http://localhost:4000/api/v4000/warehouse/vantaa
+
+###
+
+DELETE http://localhost:4000/api/products/delete_all
+
+
+###
+# save init products to mongoDB
+POST http://localhost:4000/api/products/init
+Content-Type: application/json
+
+{
+    "data": "init data"
+}

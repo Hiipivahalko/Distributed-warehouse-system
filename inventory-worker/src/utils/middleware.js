@@ -1,6 +1,6 @@
 const tinyLogger = (tokens, req, res) => {
   return [
-    tokens['date'](req, res), ' |',
+    tokens['date'](req, res, 'clf'), ' |',
     tokens.method(req, res),
     tokens.url(req, res),
     tokens.status(req, res),

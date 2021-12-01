@@ -42,6 +42,9 @@ app.post('/api/order', (request, response) => {
   }).catch( () => response.send(false))
 })
 
+app.use(middleware.unkownEndpoint)
+app.use(middleware.errorHandler)
+
 const PORT = 5000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

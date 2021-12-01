@@ -2,7 +2,21 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-import './styles/App.css';
+import './styles/App.scss';
+
+const Products = ({ products }) => {
+  console.log('products', products);
+  return (
+    <div className='products'>
+      <h3>Products:</h3>
+      <ul>
+        {products.map(p => 
+          <li key={p._id}>{p.location}</li>  
+        )}
+      </ul>
+    </div>
+  )
+}
 
 const App = () => {
 
@@ -45,16 +59,9 @@ const App = () => {
   return (
     <div>
       <h1>DisSys Warehouse</h1>
-      <button onClick={fectProducts}>Fetch warehouses</button>
+      <button onClick={fectProducts}>Fetch products</button>
       {products ? 
-        <>
-          <h3>Warehouses:</h3>
-          <ul>
-            {products.map(p => 
-              <li key={p._id}>{p.location}</li>  
-            )}
-          </ul>
-        </>
+        <Products products={products}/>
         : <p>We dont have products yet</p>
       }
     </div>
