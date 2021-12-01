@@ -1,15 +1,17 @@
 const express = require('express')
 const cors = require('cors')
 const axios = require('axios')
-const app = express()
 const mongoose = require('mongoose')
 const productsRouter = require('./routes/products')
+const morgan = require('morgan')
+const middleware = require('./utils/middleware')
+
+const app = express()
 
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
-app.use('/api/products', productsRouter)
-
+app.use(morgan(middleware.tinyLogger))
 
 const url = process.env.MONGO_URI
 
@@ -28,6 +30,8 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
+// routes
+app.use('/api/products', productsRouter)
 
 
 const PORT = 4001
