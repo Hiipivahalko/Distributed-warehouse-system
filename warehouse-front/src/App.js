@@ -4,6 +4,17 @@ import axios from 'axios';
 
 import './styles/App.scss';
 
+const Product = ({ product }) => {
+  return (
+    <div className='item' >
+      <h4>{product.name}</h4>
+      {product.locations.map(l => 
+        <p key={l.location}>{l.location}: {l.amount}</p>  
+      )}
+    </div>
+  )
+}
+
 const Products = ({ products }) => {
   console.log('products', products);
   return (
@@ -11,7 +22,7 @@ const Products = ({ products }) => {
       <h3>Products:</h3>
       <ul>
         {products.map(p => 
-          <li key={p._id}>{p.location}</li>  
+          <Product product={p} key={p.id}/>
         )}
       </ul>
     </div>
@@ -52,9 +63,6 @@ const App = () => {
     console.log('data fetched');
   }
 
-  /*
-  
-  */
 
   return (
     <div>
