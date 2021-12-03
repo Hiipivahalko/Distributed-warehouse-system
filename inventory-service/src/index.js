@@ -34,15 +34,15 @@ app.post('/api/products', (request, response) => {
   console.log("service sending product", product)
   axios.post('http://inventory-worker:4001/api/products', product)
   .then(result => {
-    console.log("service succeeded in saving")
-    response.status(204).end()
+    console.log("service succeeded in saving product")
+    response.status(200).json(product)
   })
   .catch( (err) =>  {
     console.log(err)
-    response.json({
+    response.status(403).json({
       error: "error when saving product",
       product: request.body
-    }).status(403)
+    })
   })
 })
 

@@ -21,6 +21,14 @@ Content-Type: application/json
 
 GET http://localhost:5001/api/orders
 
+###
+
+POST http://localhost:5001/api/order
+Content-Type: application/json
+
+{
+    "user": "todo"
+}
 
 
 ####

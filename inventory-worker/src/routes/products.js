@@ -35,7 +35,7 @@ productsRouter.get('/', async (request, response) => {
           locations: product.locations
         })
         const saved_product = await productToSave.save()
-        return response.status(201).json(saved_product)
+        return response.status(201).json(product)
       } catch (error) {
         console.log(error.message)
         return response.status(500).send({error: `saving new item ${product.name} failed in /api/workers/inventory`})

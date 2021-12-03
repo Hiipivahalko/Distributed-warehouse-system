@@ -28,18 +28,40 @@ app.get('/api/orders', async (req, res) => {
   }
 })
 
-app.post('/api/order', (request, response) => {
-  axios.post('/api/inventory/items', {
-    params: {
-      items: request.params.items
+app.post('/api/order', async (request, response) => {
+
+  
+  
+  return response.status(501).send({error: 'WIP: not fully implemented yet!'})
+
+  // WIP below
+
+  const order = request.body
+  const result = await axios.get('http://inventory-service:4000/api/products')
+  const all_products = result.data
+
+  for (const product of order.items) {
+    if (all_products.filter(p => p.name == product.name)
+        .locations.filter(l => l.location == order.location)
+        .amount < 0) {
+          return response.status(410).json({message: "One or more products have run out of stock"})
     }
-  }).then( items => {
-    if(items.length < request.params.items.length) {
-      response.send(false)
-    }
-    //Save order to order db
-    response.send(true)
-  }).catch( () => response.send(false))
+  }
+
+  try {
+    const orderToSave = new Order({
+      user: order.user,
+      location: order.location,
+      time: new Date().toISOString(),
+      items: order.items
+    })
+    const savedOrder = await orderToSave.save()
+    return response.status(201).json(savedOrder)
+  } catch (error) {
+    console.log(error.message)
+    return response.status(500).send({error: `saving order failed in /api/order`})
+  }
+
 })
 
 app.use(middleware.unkownEndpoint)
