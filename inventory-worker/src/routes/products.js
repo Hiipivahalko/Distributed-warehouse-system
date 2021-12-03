@@ -19,30 +19,39 @@ productsRouter.get('/', async (request, response) => {
   })
   
   productsRouter.post('/', async (request, response) => {
+    let existingProducts
     const product = request.body
-
-    const existingProducts = await Products.find( { name: product.name } )
+    try {
+      existingProducts = await Products.find( { name: product.name } )
+    } catch (error) {
+      console.log(error.message)
+      return response.status(500).send({error: 'error when reaching for DB /api/workers/inventory'})
+    }
 
     if (!existingProducts || !existingProducts.length) {
-      const productToSave = new Products({
-        name: product.name,
-        locations: product.locations
-      })
-
-      const saved_prodcut = await productToSave.save()
-      
-      console.log("worker saved the item")
-      return response.status(204).json(productToSave)
-
-    } else {
-
+      try {
+        const productToSave = new Products({
+          name: product.name,
+          locations: product.locations
+        })
+        const saved_product = await productToSave.save()
+        return response.status(201).json(saved_product)
+      } catch (error) {
+        console.log(error.message)
+        return response.status(500).send({error: `saving new item ${product.name} failed in /api/workers/inventory`})
+      }
+    }
+    
+    try {
       const update_many_res = await Products.updateMany(
         { name: product.name },
         {locations: product.locations}
       )
-
       console.log("worker updated item(s) with the same name")
-      return response.status(204).json(update_many_res)
+      return response.status(200).json(update_many_res)
+    } catch (error) {
+      console.log(error.message)
+      return response.status(500).send({error: `updating items named ${product.name} failed in /api/workers/inventory`})
     }
   })
 
@@ -103,7 +112,7 @@ productsRouter.get('/', async (request, response) => {
       }
     }
 
-    return response.json({message: 'init data saved to mongoDB'}).status(204)
+    return response.status(201).json({message: 'init data saved to mongoDB'})
   })
 
   module.exports = productsRouter

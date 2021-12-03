@@ -25,7 +25,7 @@ app.get('/api/products', async (request, response) => {
     return response.json(result.data)
   } catch( error) {
     console.log('error:', error.message);
-    return response.json({error: "unexpected error happened."}).status(404)
+    return response.status(403).json({error: "unexpected error happened."})
   }
 })
 
