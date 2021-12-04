@@ -29,33 +29,40 @@ app.get('/api/orders', async (req, res) => {
 })
 
 app.post('/api/order', async (request, response) => {
-
-  
-  
-  return response.status(501).send({error: 'WIP: not fully implemented yet!'})
-
-  // WIP below
-
   const order = request.body
   const result = await axios.get('http://inventory-service:4000/api/products')
   const all_products = result.data
+  let updated_products = []
 
-  for (const product of order.items) {
-    if (all_products.filter(p => p.name == product.name)
-        .locations.filter(l => l.location == order.location)
-        .amount < 0) {
+  for (const order_product of order.items) {
+
+    let p = all_products.find(p => p.name == order_product.name)
+
+    let location = p.locations.find(l => 
+      (l.location === order.location) && (l.amount >= order_product.amount))
+
+    if (!location) {
           return response.status(410).json({message: "One or more products have run out of stock"})
+    } else {
+      p.locations = p.locations.filter(l => l.location !== location.location)
+      location.amount = location.amount - order_product.amount
+      p.locations.push(location)
+      updated_products.push(p)
     }
   }
 
   try {
-    const orderToSave = new Order({
+    const orderToSave = new Orders({
       user: order.user,
       location: order.location,
       time: new Date().toISOString(),
       items: order.items
     })
     const savedOrder = await orderToSave.save()
+    
+    for (const product of updated_products) {
+      await axios.post('http://inventory-service:4000/api/products', product)
+    }
     return response.status(201).json(savedOrder)
   } catch (error) {
     console.log(error.message)

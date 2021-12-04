@@ -21,14 +21,53 @@ Content-Type: application/json
 
 GET http://localhost:5001/api/orders
 
-###
 
+###
+# expect 201: success!
 POST http://localhost:5001/api/order
 Content-Type: application/json
 
-{
-    "user": "todo"
-}
+  {
+    "user": "Donald Duck",
+    "location": "Helsinki",
+    "time": "2021-12-04T13:16:20.514Z",
+    "items": [
+      {
+        "id": "61aa564431636a3db925c599",
+        "name": "electric bicycle",
+        "amount": 1
+      },
+      {
+        "id": "61abcba34059e6a73a13dfc5",
+        "name": "electric jetpack",
+        "amount": 2
+      }
+    ]
+  }
+
+
+###
+# expect 410: One or more products have run out of stock
+POST http://localhost:5001/api/order
+Content-Type: application/json
+
+  {
+    "user": "Donald Duck",
+    "location": "Oulu",
+    "time": "2021-12-04T13:16:20.514Z",
+    "items": [
+      {
+        "id": "61aa564431636a3db925c599",
+        "name": "electric bicycle",
+        "amount": 1
+      },
+      {
+        "id": "61abcba34059e6a73a13dfc5",
+        "name": "electric jetpack",
+        "amount": 2
+      }
+    ]
+  }
 
 
 ####

@@ -31,7 +31,6 @@ app.get('/api/products', async (request, response) => {
 
 app.post('/api/products', (request, response) => {
   const product = request.body
-  console.log("service sending product", product)
   axios.post('http://inventory-worker:4001/api/products', product)
   .then(result => {
     console.log("service succeeded in saving product")
