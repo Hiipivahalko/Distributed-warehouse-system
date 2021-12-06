@@ -1,44 +1,96 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
+const Order = ({ order }) => {
+
+  return (
+    <div className='order'>
+      {order.name}: {order.amount}
+    </div>
+  )
+}
+
+const AddOrder = ({ products, setOrderProducts, orderProducts }) => {
+
+  const handleOrderAdd = async (event) => {
+    event.preventDefault()
+    const product_name = event.target[0].value
+    const product_amount = parseInt(event.target[1].value)
+    const prod = products.find(p => p.name === product_name)
+
+    if (!prod) {
+      console.log('something wnet wrong, could not find product');
+      return;
+    }
+
+    const order = {
+      id: prod.id,
+      name: product_name,
+      amount: product_amount
+    }
+    const find_res = orderProducts.find(o => o.name === product_name)
+    if (find_res) {
+      const new_orders = orderProducts.map(o => o.name === product_name ?
+        {...o, amount: o.amount + product_amount} : o)
+      setOrderProducts(new_orders)
+    } else {
+      setOrderProducts([...orderProducts, order])
+    }
+  }
+
+  return (
+    <>
+      <form onSubmit={handleOrderAdd}>
+        <h4>Add item to orderlist:</h4>
+        <div>
+          <label>Product: </label>
+          <select >
+            <option value=''></option>
+            {products.map(p => 
+              <option key={p.name} value={p.name}>{p.name}</option>  
+            )}
+          </select>
+        </div>
+        <div>
+          <label>Amount: </label>
+          <input id='amount' type='number' min='1'/>
+        </div>
+        <button type='submit' className='yellow-btn'>Add order</button>
+      </form>
+    </>
+  )
+}
+
+
 const OrderProduct = ({ products, setProducts }) => {
+
+  const [orderProducts, setOrderProducts] = useState([])
+
+  console.log('orderProducts', orderProducts);
 
   const submitOrder = async (event) => {
     event.preventDefault()
 
     const user = event.target[0].value
     const location = event.target[1].value
-    const prod_name = event.target[2].value
-    const prod = products.find(p => p.name === prod_name)
-    const prod_id = prod.id
-    const amount = event.target[3].value
+
+    if (user === '' || location === '') {
+      window.alert('fill all fields')
+      return;
+    }
 
     const order = {
       user: user,
       location: location,
-      items: [{ id: prod_id, name: prod_name, amount: amount}]
+      items: orderProducts
     }
-
-    //console.log('order', order);
 
     try {
       const res = await axios.post(`${process.env.REACT_APP_ORDER_SERVICE_URL}/api/order`, order)
       console.log(res.status, res.data);
-      //const prods_filtered = products.filter(p => p.id !== prod_id)
-
-      /*const location_mod = prod.locations.map(l => l.location === location ?
-        {location: l, amount: l.amount - amount} : l)
-      const mod_prod = {
-        id: prod.id,
-        name: prod.name,
-        locations: location_mod
-
-      }
-      console.log('mod_prod', mod_prod);
-      //setProducts([...prods_filtered, {}])
-      setProducts(products.map(p => p.id !== prod_id ? p : mod_prod))*/
       const res_pords = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/products/`)
       setProducts(res_pords.data)
+      setOrderProducts([])
     } catch (error) {
       const msg = error.response.data.message ? error.response.data.message : ''
       window.alert(`Error happened, ${msg}\n click ok to continue`)
@@ -55,6 +107,7 @@ const OrderProduct = ({ products, setProducts }) => {
     <div className='order-form'>
       <h3>Order Prodcuts</h3>
       <form onSubmit={submitOrder}>
+        <h4>Order information:</h4>
         <div>
           <label>User: </label>
           <input id='user' type='text' autoComplete='off'/>
@@ -68,21 +121,19 @@ const OrderProduct = ({ products, setProducts }) => {
             )}
           </select>
         </div>
-        <div>
-          <label>Product: </label>
-          <select >
-            <option value=''></option>
-            {products.map(p => 
-              <option key={p.name} value={p.name}>{p.name}</option>  
-            )}
-          </select>
-        </div>
-        <div>
-          <label>Amount: </label>
-          <input id='amount' type='number' min='1'/>
-        </div>
-        <button type='submit'>Order products</button>
+        <button type='submit' className='green-btn'>Order products</button>
       </form>
+      <AddOrder products={products} 
+        setOrderProducts={setOrderProducts} 
+        orderProducts={orderProducts}
+      />
+      <h4>Order List:</h4>
+      {orderProducts.length > 0 ?
+        orderProducts.map(o =>
+          <Order key={o.name} order={o}/>  
+        ) :
+        <p>No order items yet</p>
+      }
     </div>
   )
 }

@@ -24,9 +24,17 @@ const App = () => {
         console.log('result_data:', result.data)
         setProducts(result.data);
       }
-      
     } catch (err) {
       console.log(err.message);
+    }
+  }
+
+  const init_products = async () => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/products/all`)
+      await axios.post(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/products/init`)
+    } catch (error) {
+      console.log(error.message);
     }
   }
 
@@ -40,10 +48,18 @@ const App = () => {
     console.log('data fetched');
   }
 
+  const initProducts = async (event) => {
+    event.preventDefault()
+    await init_products();
+    await find_products();
+    console.log('data initialized');
+  }
+
   return (
     <div>
       <h1>DisSys Warehouse</h1>
       <button onClick={fectProducts}>Fetch products</button>
+      <button onClick={initProducts}>Init products</button>
       <div className='main'>
         <Products products={products}/>
         <OrderProduct products={products} setProducts={setProducts}/>
