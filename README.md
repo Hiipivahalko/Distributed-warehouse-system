@@ -9,6 +9,7 @@ Clone the repositoy
 Set up a .env file in project root:
 ```
 REACT_APP_INVENTORY_SERVICE_URL=http://localhost:4000
+REACT_APP_ORDER_SERVICE_URL=http://localhost:5001
 MONGO_URI=mongodb+srv://USER:PASSWORD@MONGO_DATABASE_URL
 ```
 Start all containers by giving command in repository root:

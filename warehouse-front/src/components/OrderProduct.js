@@ -22,7 +22,7 @@ const OrderProduct = ({ products, setProducts }) => {
     //console.log('order', order);
 
     try {
-      const res = await axios.post(`http://localhost:5001/api/order`, order)
+      const res = await axios.post(`${process.env.REACT_APP_ORDER_SERVICE_URL}/api/order`, order)
       console.log(res.status, res.data);
       //const prods_filtered = products.filter(p => p.id !== prod_id)
 
