@@ -44,7 +44,7 @@ const init_data = [
 const warehouseSchema = new mongoose.Schema({
   location: String,
   amount: Number
-})
+}, { _id : false, __v: false })
 
 const productSchema = new mongoose.Schema({
   name: String,

@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema({
   id: String,
   name: String,
   amount: Number
-})
+}, { _id : false, __v: false })
 
 const orderSchema = new mongoose.Schema({
   user: String,

@@ -30,6 +30,9 @@ app.get('/api/orders', async (req, res) => {
 
 app.post('/api/order', async (request, response) => {
   const order = request.body
+  if (!order.user || !order.location || !order.items) {
+    return response.status(400).json({error: 'order miss information'})
+  }
   const result = await axios.get('http://inventory-service:4000/api/products')
   const all_products = result.data
   let updated_products = []
