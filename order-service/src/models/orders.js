@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const productSchema = new mongoose.Schema({
   id: String,
   name: String,
+  location: String,
   amount: Number
 }, { _id : false, __v: false })
 

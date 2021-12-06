@@ -19,7 +19,7 @@ Content-Type: application/json
 ###
 
 
-GET http://localhost:5001/api/orders
+GET http://localhost:5001/api/order
 
 
 ###
@@ -47,7 +47,7 @@ Content-Type: application/json
 
 
 ###
-# expect 410: One or more products have run out of stock
+# expect 201: Take jetpacks from Helsinki instead
 POST http://localhost:5001/api/order
 Content-Type: application/json
 
