@@ -25,8 +25,14 @@ orderRouter.post('/', async (request, response) => {
 
     let p = all_products.find(p => p.name == order_product.name)
 
+    // try to select the user location, if there is sufficient stock
     let location = p.locations.find(l => 
       (l.location === order.location) && (l.amount >= order_product.amount))
+
+    if (!location) {
+      // take item from ANY warehouse that has sufficient stock
+      location = p.locations.find(l => (l.amount >= order_product.amount))
+    }
 
     if (!location) {
           return response.status(410).json({message: "One or more products have run out of stock"})
@@ -35,6 +41,8 @@ orderRouter.post('/', async (request, response) => {
       location.amount = location.amount - order_product.amount
       p.locations.push(location)
       updated_products.push(p)
+      
+      order_product.location = location.location
     }
   }
 
