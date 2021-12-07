@@ -54,6 +54,7 @@
   border: 2px solid $color-yellow-dark;
   color: #000000;
   font-size: large;
+  margin: 0.5rem;
 
   &:hover {
     background-color: $color-yellow-darker;
@@ -65,9 +66,22 @@
   border: 2px solid $color-green-dark;
   color: #000000;
   font-size: large;
+  margin: 0.5rem;
 
   &:hover {
     background-color: $color-green-darker;
+  }
+}
+
+.red-btn {
+  background-color: $color-red;
+  border: 2px solid $color-red-dark;
+  color: #000000;
+  font-size: large;
+  margin: 0.5rem;
+
+  &:hover {
+    background-color: $color-red-darker;
   }
 }
 
