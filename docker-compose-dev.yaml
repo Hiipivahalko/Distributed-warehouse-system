@@ -1,0 +1,75 @@
+version: '3.8'
+services: 
+
+    mongo:
+      image: mongo
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+      volumes:
+        - ./mongo:/data/db
+
+    front-end:
+      container_name: front-end
+      build:
+        context: ./warehouse-front
+        dockerfile: Dockerfile
+      volumes:
+       - ./warehouse-front:/usr/app
+       - /usr/app/node_modules
+      ports:
+        - 3000:3000
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+      # - REACT_APP_INVENTORY_SERVICE_URL=${REACT_APP_INVENTORY_SERVICE_URL}
+      env_file:
+        - ./.env
+      
+    
+    inventory-service:
+      container_name: inventory-service
+      build:
+        context: ./inventory-service
+        dockerfile: Dockerfile
+      volumes:
+       - ./inventory-service:/usr/app
+       - /usr/app/node_modules
+      ports:
+        - 4000:4000
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+        - MONGO_URI=${MONGO_URI}
+    
+    inventory-worker:
+      build:
+        context: ./inventory-worker
+        dockerfile: Dockerfile
+      volumes:
+       - ./inventory-worker:/usr/app
+       - /usr/app/node_modules
+      ports:
+        - 4001
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+        - MONGO_URI=${MONGO_URI}
+      deploy:
+        replicas: 3
+      depends_on:
+        - mongo
+
+    order-service:
+      container_name: order-service
+      build:
+        context: ./order-service
+        dockerfile: Dockerfile
+      volumes:
+       - ./order-service:/usr/app
+       - /usr/app/node_modules
+      ports:
+        - 5001:5000
+      environment:
+        - CHOKIDAR_USEPOLLING=true
+        - MONGO_URI=${MONGO_URI}
+      depends_on:
+        - mongo
