@@ -1,17 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+  Routes,
+  Route,
+  Redirect,
+  Link
+} from 'react-router-dom'
 
 import OrderProduct from './components/OrderProduct';
 import Products from './components/Products'
+import OrderHistory from './OrderHistory';
 
 import './styles/App.scss';
 
 
+const Header = () => {
+  return (
+    <div className='header'>
+      <Link to='/'><h1>DisSys Warehouse</h1></Link>
+      <Link to='/products-and-orders'>
+        <button className='menu-btn' >Products & Order</button>
+      </Link>
+      <Link to='/order-history'>
+        <button className='menu-btn' >Order-history</button>
+      </Link>
+    </div>
+  )
+}
 
+const Main = () => {
 
+  
+  return (
+    <div className='main-container'>
+      <Link to='/products-and-orders'>
+        <button className='start-btn' >Products&orders</button>
+      </Link>
+      <Link to='/order-history'>
+        <button className='start-btn' >Order-history</button>
+      </Link>
+    </div>
+  )
+}
 
-const App = () => {
-
+const Warehouse = () => {
   const [ products, setProducts ] = useState(null);
 
   const find_products = async () => {
@@ -56,14 +88,29 @@ const App = () => {
   }
 
   return (
-    <div className='app'>
-      <h1>DisSys Warehouse</h1>
-      <button onClick={fectProducts}>Fetch products</button>
-      <button onClick={initProducts}>Init products</button>
+    <>
+      <button onClick={fectProducts} className='dark-btn'>Fetch products</button>
+      <button onClick={initProducts} className='dark-btn'>Init products</button>
       <div className='main'>
         <Products products={products}/>
         <OrderProduct products={products} setProducts={setProducts}/>
       </div>
+    </>
+  );
+
+}
+
+
+const App = () => {
+
+  return (
+    <div className='app'>
+      <Header />
+      <Routes>
+        <Route path='/products-and-orders' element={<Warehouse />} />
+        <Route path='/order-history' element={<OrderHistory />}/>
+        <Route path='/' element={<Main />}/>  
+      </Routes>
     </div>
   );
 }

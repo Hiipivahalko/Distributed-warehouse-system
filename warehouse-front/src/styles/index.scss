@@ -1,3 +1,5 @@
+@import './variables';
+
 body {
   margin: 0 3rem;
   font-family: 'Courier New', Courier, monospace;
@@ -5,6 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #021111;
   color: white;
+  height: 100%;
 }
 
 code {
@@ -15,4 +18,35 @@ code {
 button {
   cursor: pointer;
   font-family: 'Courier New', Courier, monospace;
+}
+
+form {
+  padding-left: 2.5rem;
+}
+
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-btn {
+  background-color: $color-dark;
+  color: white;
+  border: 3px solid $color-dark-darker;
+  box-shadow: 3px 3px rgb(179, 179, 179);
+  font-size: large;
+  font-weight:  normal;
+  border-radius: 15px;
+  margin: 20px;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 0.25rem 0.15rem;
+
+  &:hover {
+    background-color: $color-dark-darker;
+  }
+
 }
