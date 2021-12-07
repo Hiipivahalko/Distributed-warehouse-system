@@ -56,7 +56,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='app'>
       <h1>DisSys Warehouse</h1>
       <button onClick={fectProducts}>Fetch products</button>
       <button onClick={initProducts}>Init products</button>

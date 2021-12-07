@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 //import axios from 'axios';
 
 const AddOrder = ({ products, setOrderProducts, orderProducts }) => {
+
+  const productTypes = [{name: ''}, ...products]
+  const [ amount, setAmount ] = useState('')
 
   const handleOrderAdd = async (event) => {
     event.preventDefault()
@@ -27,6 +30,7 @@ const AddOrder = ({ products, setOrderProducts, orderProducts }) => {
     } else {
       setOrderProducts([...orderProducts, order])
     }
+    setAmount('')
   }
 
   return (
@@ -36,15 +40,17 @@ const AddOrder = ({ products, setOrderProducts, orderProducts }) => {
         <div>
           <label>Product: </label>
           <select >
-            <option value=''></option>
-            {products.map(p => 
+            {productTypes.map(p => 
               <option key={p.name} value={p.name}>{p.name}</option>  
             )}
           </select>
         </div>
         <div>
           <label>Amount: </label>
-          <input id='amount' type='number' min='1'/>
+          <input id='amount' type='number' min='1' 
+            value={amount}
+            onChange={e => setAmount(e.target.value)}
+          />
         </div>
         <button type='submit' className='yellow-btn'>Add order</button>
       </form>

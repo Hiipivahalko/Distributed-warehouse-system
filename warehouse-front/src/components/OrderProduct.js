@@ -2,24 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import AddOrder from './AddOrder';
-
-const Order = ({ order }) => {
-
-  return (
-    <div className='order'>
-      {order.name}: {order.amount}
-    </div>
-  )
-}
+import OrderList from './OrderList';
 
 
 const OrderProduct = ({ products, setProducts }) => {
 
   const [orderProducts, setOrderProducts] = useState([])
+  const [ user, setUser ] = useState('')
 
   const submitOrder = async (event) => {
     event.preventDefault()
-    const user = event.target[0].value
     const location = event.target[1].value
 
     if (user === '' || location === '') {
@@ -43,11 +35,9 @@ const OrderProduct = ({ products, setProducts }) => {
       const msg = error.response.data.message ? error.response.data.message : ''
       window.alert(`Error happened, ${msg}\n click ok to continue`)
     }
-
+    setUser('')
     console.log('form submitted');
   }
-
-  
 
   if (products === null) {
     return null
@@ -60,7 +50,10 @@ const OrderProduct = ({ products, setProducts }) => {
         <h4>Order information:</h4>
         <div>
           <label>User: </label>
-          <input id='user' type='text' autoComplete='off'/>
+          <input id='user' type='text' autoComplete='off'
+            value={user}
+            onChange={e => setUser(e.target.value)}
+          />
         </div>
         <div>
           <label>Location: </label>
@@ -77,20 +70,7 @@ const OrderProduct = ({ products, setProducts }) => {
         setOrderProducts={setOrderProducts} 
         orderProducts={orderProducts}
       />
-      <h4>Order List:</h4>
-      {orderProducts.length > 0 ? 
-        <button onClick={() => setOrderProducts([])} className='red-btn'>
-          Clear order list
-        </button>
-        :
-        null
-      }
-      {orderProducts.length > 0 ?
-        orderProducts.map(o =>
-          <Order key={o.name} order={o}/>  
-        ) :
-        <p>No order items yet</p>
-      }
+      <OrderList orderProducts={orderProducts} setOrderProducts={setOrderProducts}/>
     </div>
   )
 }
