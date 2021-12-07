@@ -1,5 +1,15 @@
 version: '3.8'
 services: 
+
+    mongo:
+      image: mongo
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: example
+      volumes:
+        - ./mongo:/data/db
+
     front-end:
       container_name: front-end
       build:
@@ -12,14 +22,12 @@ services:
         - 3000:3000
       environment:
         - CHOKIDAR_USEPOLLING=true
-        - REACT_APP_INVENTORY_SERVICE_URL=${REACT_APP_INVENTORY_SERVICE_URL}
-              # - REACT_APP_INVENTORY_SERVICE_URL=${REACT_APP_INVENTORY_SERVICE_URL}
+      # - REACT_APP_INVENTORY_SERVICE_URL=${REACT_APP_INVENTORY_SERVICE_URL}
       env_file:
         - ./.env
-  
-
+      
+    
     inventory-service:
-      restart: always
       container_name: inventory-service
       build:
         context: ./inventory-service
@@ -32,15 +40,8 @@ services:
       environment:
         - CHOKIDAR_USEPOLLING=true
         - MONGO_URI=${MONGO_URI}
-      healthcheck:
-        test: ["CMD", "wget", "--tries=1", "--spider", "http://inventory-service:4000"]
-        interval: 1min
-        timeout: 15s
-        retries: 3
-        start_period: 15s
     
     inventory-worker:
-      restart: always
       build:
         context: ./inventory-worker
         dockerfile: Dockerfile
@@ -54,16 +55,10 @@ services:
         - MONGO_URI=${MONGO_URI}
       deploy:
         replicas: 3
-      healthcheck:
-        test: ["CMD", "wget", "--tries=1", "--spider", "http://inventory-worker:4001"]
-        interval: 1min
-        timeout: 15s
-        retries: 3
-        start_period: 15s
-
+      depends_on:
+        - mongo
 
     order-service:
-      restart: always
       container_name: order-service
       build:
         context: ./order-service
@@ -76,17 +71,5 @@ services:
       environment:
         - CHOKIDAR_USEPOLLING=true
         - MONGO_URI=${MONGO_URI}
-      healthcheck:
-        test: ["CMD", "wget", "--tries=1", "--spider", "http://order-service:5000"]
-        interval: 1min
-        timeout: 15s
-        retries: 3
-        start_period: 15s
-    
-    autoheal:
-      restart: always
-      image: willfarrell/autoheal
-      environment:
-        - AUTOHEAL_CONTAINER_LABEL=all
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
+      depends_on:
+        - mongo
