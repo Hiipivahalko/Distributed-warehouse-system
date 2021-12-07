@@ -88,3 +88,13 @@ Content-Type: application/json
 {
     "data": "init data"
 }
+
+
+###
+
+GET http://localhost:5001/api/order/
+
+
+###
+
+DELETE http://localhost:5001/api/order/clearHistory

@@ -65,4 +65,14 @@ orderRouter.post('/', async (request, response) => {
   }
 })
 
+orderRouter.delete('/clearHistory', async (requset, response) => {
+  console.log('order service deleting all orders from mongoDB');
+  try {
+    const delete_res = await Orders.remove({})
+    return response.status(200).json({message: 'deleting went fine'})
+  } catch (error) {
+    return response.status(403).json({err: error.message})
+  }
+})
+
 module.exports = orderRouter

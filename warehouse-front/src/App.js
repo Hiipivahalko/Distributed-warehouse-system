@@ -24,7 +24,7 @@ const Header = () => (
 const Main = () => (
   <div className='main-container'>
     <Link to='/products-and-orders'>
-      <button className='start-btn' >Products&orders</button>
+      <button className='start-btn' >Products & orders</button>
     </Link>
     <Link to='/order-history'>
       <button className='start-btn' >Order-history</button>
