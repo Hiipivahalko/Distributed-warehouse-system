@@ -1,6 +1,6 @@
 # Distributed-warehouse-system
 
-## set up dev environment
+## set up local dev environment
 
 Install docker
 
@@ -10,12 +10,14 @@ Set up a .env file in project root:
 ```
 REACT_APP_INVENTORY_SERVICE_URL=http://localhost:4000
 REACT_APP_ORDER_SERVICE_URL=http://localhost:5001
-MONGO_URI=mongodb+srv://USER:PASSWORD@MONGO_DATABASE_URL
+MONGO_URI=mongodb://root:example@mongo
 ```
 Start all containers by giving command in repository root:
 ```
-docker-compose up
+docker-compose -f docker-compose-dev.yaml up
 ```
+This will start a local MongoDB server. If you want to use Mongo Atlas, you can point the `MONGO_URI` to your Atlas DB, and run the application with `docker-compose up` instead.
+
 Frontend application is then running at `http://localhost:3000`.
 
 ## scaling
