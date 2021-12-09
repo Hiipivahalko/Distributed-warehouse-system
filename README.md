@@ -30,6 +30,8 @@ docker-compose -f docker-compose-dev.yaml down
 ```
 
 Frontend application is served at `http://localhost:3000`.
+- Go to Products & Orders and click `Init products`
+- Play around with orders!
 
 ### Option 2: Start the service using remote MongoSB (such as Mongo Atlas)
 
@@ -54,3 +56,5 @@ docker-compose down
 ```
 
 Frontend application is served at `http://localhost:3000`.
+- Go to Products & Orders and click `Init products`
+- Play around with orders!
