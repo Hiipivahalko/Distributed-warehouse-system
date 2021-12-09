@@ -59,7 +59,8 @@ const OrderProduct = ({ products, setProducts }) => {
           <label>Location: </label>
           <select >
             <option value=''></option>
-            {products[0].locations.map(l => 
+            {products.length === 0 ? <option value=''></option> 
+            : products[0].locations.map(l => 
               <option key={l.location} value={l.location}>{l.location}</option>  
             )}
           </select>
