@@ -1,10 +1,17 @@
 const orderRouter = require('express').Router()
 const axios = require('axios')
 const Orders = require('../models/orders')
+const { createNewOrder } = require("../queues/orders-queue");
+const bullmq = require('bullmq')
+const { redisOptions, queue_name } = require('../config')
 
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+const queueEvents = new bullmq.QueueEvents(queue_name, {
+  connection: redisOptions
+});
 
 orderRouter.get('/', async (req, res) => {
   try {
@@ -17,12 +24,25 @@ orderRouter.get('/', async (req, res) => {
 })
 
 orderRouter.post('/', async (request, response) => {
-  await sleep(1000)
+  await sleep(3000)
   const order = request.body
   if (!order.user || !order.location || !order.items) {
     return response.status(400).json({error: 'order miss information'})
   }
-  const result = await axios.get('http://inventory-service:4000/api/products')
+
+  try {
+    const job = await createNewOrder(order)
+    //console.log('job:', job);
+    
+    //const job_res = await job.finished();
+
+    
+    return response.status(200).json({msg: 'redis works'})
+  } catch (err) {
+    console.log(err.message);
+    return response.status(400).json({error: 'redis not work'})
+  }
+  /*const result = await axios.get('http://inventory-service:4000/api/products')
   const all_products = result.data
   let updated_products = []
 
@@ -67,7 +87,7 @@ orderRouter.post('/', async (request, response) => {
   } catch (error) {
     console.log(error.message)
     return response.status(500).send({error: `saving order failed in /api/order`})
-  }
+  }*/
 })
 
 orderRouter.delete('/clearHistory', async (requset, response) => {

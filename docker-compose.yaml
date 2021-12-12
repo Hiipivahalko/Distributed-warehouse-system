@@ -1,4 +1,8 @@
 version: '3.8'
+
+volumes:
+  redis-db:
+
 services: 
     front-end:
       container_name: front-end
@@ -16,8 +20,17 @@ services:
               # - REACT_APP_INVENTORY_SERVICE_URL=${REACT_APP_INVENTORY_SERVICE_URL}
       env_file:
         - ./.env
-  
 
+    redis-server:
+      restart: always
+      container_name: redis-server
+      image: redis:6.2.6
+      ports:
+        - 6379:6379
+      volumes:
+        - redis-db:/data
+      command: redis-server --save 60 1 --loglevel warning
+  
     inventory-service:
       restart: always
       container_name: inventory-service
@@ -82,6 +95,8 @@ services:
         timeout: 15s
         retries: 3
         start_period: 15s
+      depends_on:
+        - redis-server
     
     autoheal:
       restart: always

@@ -16,6 +16,8 @@ Set up the following .env file in project root:
 REACT_APP_INVENTORY_SERVICE_URL=http://localhost:4000
 REACT_APP_ORDER_SERVICE_URL=http://localhost:5001
 MONGO_URI=mongodb://root:example@mongo
+REDIS_HOST=redis-server
+REDIS_PORT=6379
 ```
 Here are the terminal commands to 
 

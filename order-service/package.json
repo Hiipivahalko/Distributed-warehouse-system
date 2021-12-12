@@ -11,7 +11,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@bull-board/express": "^3.8.1",
     "axios": "^0.24.0",
+    "bull": "^4.1.1",
+    "bullmq": "^1.57.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^6.0.13",
