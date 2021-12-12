@@ -5,6 +5,8 @@ import axios from 'axios';
 const OrderHistory = () => {
 
   const [ orders, setOrders ] = useState([])
+  const [ info, setInfo ] = useState('')
+  const [ error, setError ] = useState('')
   
 
   const find_orders = async () => {
@@ -17,8 +19,17 @@ const OrderHistory = () => {
         console.log('result_data:', result.data)
         setOrders(result.data);
       }
+      console.log('orders fetched');
+      setInfo('Order history fetched successfully')
+      setTimeout(() => {
+        setInfo('')
+      }, 5000)
     } catch (err) {
       console.log(err.message);
+      setError(`Could not fetch order history: ${err.message}`)
+      setTimeout(() => {
+        setError('')
+      }, 5000)
     }
   }
 
@@ -29,8 +40,7 @@ const OrderHistory = () => {
 
   const fecthOrders = async (event) => {
     event.preventDefault()
-    await find_orders();
-    console.log('orders fetched');
+    find_orders();
   }
 
   const clearHistory = async (event) => {
@@ -39,16 +49,28 @@ const OrderHistory = () => {
       await axios.delete(`${process.env.REACT_APP_ORDER_SERVICE_URL}/api/order/clearHistory`);
       setOrders([])
       console.log('history cleared');
+      setInfo('Order history removed successfully')
+      setTimeout(() => {
+        setInfo('')
+      }, 3000)
     } catch (error) {
       console.log('error when trying to delete order history', error.message );
+      setError(`error when trying to delete order history: ${error.message}`)
+      setTimeout(() => {
+        setError('')
+      }, 5000)
     }
     
   }
 
   return (
     <>
-      <button onClick={fecthOrders} className='dark-btn'>Fetch orders</button>
-      <button onClick={clearHistory} className='dark-btn'>Remove all history</button>
+      <div className='main-top'>
+        <button onClick={fecthOrders} className='dark-btn'>Fetch orders</button>
+        <button onClick={clearHistory} className='dark-btn'>Remove all history</button>
+        {info !== '' ? <div className='info'>{info}</div>: null}
+        {error !== '' ? <div className='error'>{error}</div>: null}
+      </div>
       <div>
       <h3>Order History:</h3>
         { orders.length > 0 ? 

@@ -5,7 +5,7 @@ import AddOrder from './AddOrder';
 import OrderList from './OrderList';
 
 
-const OrderProduct = ({ products, setProducts }) => {
+const OrderProduct = ({ products, setProducts, setInfo, setError }) => {
 
   const [orderProducts, setOrderProducts] = useState([])
   const [ user, setUser ] = useState('')
@@ -33,9 +33,17 @@ const OrderProduct = ({ products, setProducts }) => {
       const res_pords = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/products/`)
       setProducts(res_pords.data)
       setOrderProducts([])
+      setInfo('Prodcuts ordered successfully')
+      setTimeout(() => {
+        setInfo('')
+      }, 5000)
     } catch (error) {
       const msg = error.response.data.message ? error.response.data.message : ''
-      window.alert(`Error happened, ${msg}\n click ok to continue`)
+      setError(`ORDER FAILED:\n ${msg}`)
+      setTimeout(() => {
+        setError('')
+      }, 10000)
+      //window.alert(`Error happened, ${msg}\n click ok to continue`)
     } finally {
       setFetching(false)
     }

@@ -6,19 +6,26 @@ import Products from './components/Products'
 
 const Warehouse = () => {
   const [ products, setProducts ] = useState(null);
+  const [ info, setInfo ] = useState('')
+  const [ error, setError ] = useState('')
 
-  const find_products = async () => {
+  const find_products = async (infoMsg, errorMsg) => {
     try {
       const result = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/products/`);
       console.log('result status', result.status);
-      if (result.status >= 400) {
-        console.log(result.data);
-      } else {  
-        console.log('result_data:', result.data)
-        setProducts(result.data);
-      }
+      
+      console.log('result_data:', result.data)
+      setProducts(result.data);
+      setInfo(infoMsg)
+      setTimeout(() => {
+        setInfo('')
+      }, 5000)
     } catch (err) {
       console.log(err.message);
+      setError(`${errorMsg}: ${err.message}`)
+      setTimeout(() => {
+        setError('')
+      }, 5000)
     }
   }
 
@@ -32,29 +39,36 @@ const Warehouse = () => {
   }
 
   useEffect( () => { 
-    find_products();
+    find_products('Products fecthed successfully', 'Could not order products');
   }, [])
 
   const fectProducts = async (event) => {
     event.preventDefault()
-    await find_products();
+    find_products('Products fetched successfully', 'Could not order products');
     console.log('data fetched');
   }
 
   const initProducts = async (event) => {
     event.preventDefault()
     await init_products();
-    await find_products();
+    find_products('Products initalized successfully' ,' Could not init products');
     console.log('data initialized');
   }
 
   return (
     <>
-      <button onClick={fectProducts} className='dark-btn'>Fetch products</button>
-      <button onClick={initProducts} className='dark-btn'>Init products</button>
+      <div className='main-top'>
+        <button onClick={fectProducts} className='dark-btn'>Fetch products</button>
+        <button onClick={initProducts} className='dark-btn'>Init products</button>
+        {info !== '' ? <div className='info'>{info}</div>: null}
+        {error !== '' ? <div className='error'>{error}</div>: null}
+      </div>
       <div className='main'>
         <Products products={products}/>
-        <OrderProduct products={products} setProducts={setProducts}/>
+        <OrderProduct 
+          products={products} setProducts={setProducts}
+          setInfo={setInfo} setError={setError}
+        />
       </div>
     </>
   );

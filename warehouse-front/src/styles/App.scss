@@ -34,6 +34,12 @@
   margin-top: 2em;
 }
 
+.main-top {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
 .products {
   width: 50%;
   //display: flex;
@@ -48,8 +54,13 @@
 .item {
   border: 2px solid #4f4f4f;
   padding-left: 2.5rem;
+  padding-bottom: 1rem;
   margin-bottom: 0.25rem;
   background-color: $color-dark-grey;
+
+  p {
+    margin: 0;
+  }
 }
 
 .order-form {
@@ -127,6 +138,7 @@
   color: #000000;
   font-size: large;
   margin: 0.5rem;
+  height: auto;
   box-shadow: 3px 3px rgb(179, 179, 179);
 
   &:hover {
@@ -163,5 +175,21 @@
 .history-item-product {
   margin-left: 2rem;
   padding-bottom: 0.5rem;
+}
+
+.error {
+  padding: 1rem;
+  color: $color-red-dark;
+  border: 1px solid $color-red-dark;
+  background-color: $color-red-light;
+  font-weight: bold;
+}
+
+.info {
+  padding: 0.5rem;
+  color: $color-green-dark;
+  border: 1px solid $color-green;
+  background-color: $color-green-light;
+  font-weight: bold;
 }
 
