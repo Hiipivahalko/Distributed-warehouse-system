@@ -85,6 +85,11 @@
   &:hover {
     background-color: $color-yellow-darker;
   }
+
+  &:disabled {
+    cursor: progress;
+    background-color: $color-yellow;
+  }
 }
 
 .green-btn {
@@ -96,6 +101,11 @@
 
   &:hover {
     background-color: $color-green-darker;
+  }
+
+  &:disabled {
+    cursor: progress;
+    background-color: $color-green;
   }
 }
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 //import axios from 'axios';
 
-const AddOrder = ({ products, setOrderProducts, orderProducts }) => {
+const AddOrder = ({ products, setOrderProducts, orderProducts, fecthing }) => {
 
   const productTypes = [{name: ''}, ...products]
   const [ amount, setAmount ] = useState('')
@@ -52,7 +52,9 @@ const AddOrder = ({ products, setOrderProducts, orderProducts }) => {
             onChange={e => setAmount(e.target.value)}
           />
         </div>
-        <button type='submit' className='yellow-btn'>Add order</button>
+        <button type='submit' className='yellow-btn' disabled={fecthing}>
+          Add order
+        </button>
       </form>
     </>
   )

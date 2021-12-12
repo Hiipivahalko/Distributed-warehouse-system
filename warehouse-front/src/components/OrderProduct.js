@@ -9,9 +9,11 @@ const OrderProduct = ({ products, setProducts }) => {
 
   const [orderProducts, setOrderProducts] = useState([])
   const [ user, setUser ] = useState('')
+  const [ fecthing, setFetching ] = useState(false)
 
   const submitOrder = async (event) => {
     event.preventDefault()
+    setFetching(true)
     const location = event.target[1].value
 
     if (user === '' || location === '') {
@@ -34,6 +36,8 @@ const OrderProduct = ({ products, setProducts }) => {
     } catch (error) {
       const msg = error.response.data.message ? error.response.data.message : ''
       window.alert(`Error happened, ${msg}\n click ok to continue`)
+    } finally {
+      setFetching(false)
     }
     setUser('')
     console.log('form submitted');
@@ -53,11 +57,12 @@ const OrderProduct = ({ products, setProducts }) => {
           <input id='user' type='text' autoComplete='off'
             value={user}
             onChange={e => setUser(e.target.value)}
+            disabled={fecthing}
           />
         </div>
         <div>
           <label>Location: </label>
-          <select >
+          <select disabled={fecthing}>
             <option value=''></option>
             {products.length === 0 ? <option value=''></option> 
             : products[0].locations.map(l => 
@@ -65,11 +70,16 @@ const OrderProduct = ({ products, setProducts }) => {
             )}
           </select>
         </div>
-        <button type='submit' className='green-btn'>Order products</button>
+        <button type='submit' className='green-btn'
+          disabled={fecthing}
+        >
+          Order products
+        </button>
       </form>
       <AddOrder products={products} 
         setOrderProducts={setOrderProducts} 
         orderProducts={orderProducts}
+        fecthing={fecthing}
       />
       <OrderList orderProducts={orderProducts} setOrderProducts={setOrderProducts}/>
     </div>

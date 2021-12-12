@@ -2,6 +2,10 @@ const orderRouter = require('express').Router()
 const axios = require('axios')
 const Orders = require('../models/orders')
 
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 orderRouter.get('/', async (req, res) => {
   try {
     const all_orders = await Orders.find( {} )
@@ -13,6 +17,9 @@ orderRouter.get('/', async (req, res) => {
 })
 
 orderRouter.post('/', async (request, response) => {
+  console.log('sleeping');
+  await sleep(2000)
+  console.log('wake up');
   const order = request.body
   if (!order.user || !order.location || !order.items) {
     return response.status(400).json({error: 'order miss information'})
