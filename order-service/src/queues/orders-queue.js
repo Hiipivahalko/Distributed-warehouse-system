@@ -2,16 +2,14 @@ const bullmq = require('bullmq')
 const { processOrder } = require("./order-worker");
 const { redisOptions, queue_name } = require('../config')
 
+console.log('redisOptions', redisOptions);
 
 const ordersQueue = new bullmq.Queue(queue_name, {
   connection: redisOptions
 });
 
 const worker = new bullmq.Worker(queue_name, async job => {
-  console.log('HELLO WORLD, INSIDE WORKER');
-  const process_res = await processOrder(job.data)
-
-  return process_res
+  await processOrder(job.data)
 }, { connection: redisOptions });
 
 

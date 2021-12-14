@@ -30,13 +30,12 @@ const OrderProduct = ({ products, setProducts, setInfo, setError }) => {
     try {
       const res = await axios.post(`${process.env.REACT_APP_ORDER_SERVICE_URL}/api/order`, order)
       console.log(res.status, res.data);
-      //const res_pords = await axios.get(`${process.env.REACT_APP_INVENTORY_SERVICE_URL}/api/products/`)
-      //setProducts(res_pords.data)
       setOrderProducts([])
-      //setInfo('Prodcuts ordered successfully')
-      //setTimeout(() => {
-        //setInfo('')
-      //}, 5000)*/
+      const msg = res.data.msg ? res.data.msg : 'Order under process, Go check http://localhost:3000/order-history your order status'
+      setInfo(msg)
+      setTimeout(() => {
+        setInfo('')
+      }, 5000)
     } catch (error) {
       const msg = error.response.data.message ? error.response.data.message : ''
       setError(`ORDER FAILED:\n ${msg}`)

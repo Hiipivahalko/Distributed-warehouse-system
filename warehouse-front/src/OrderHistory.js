@@ -78,6 +78,7 @@ const OrderHistory = () => {
           {orders.map(o => 
             <div className='history-item' key={o.id}>
               <p>"user": {o.user}</p>
+              <p>"STATUS": {o.status}</p>
               <p>"location": {o.location},</p>
               <p>"time": {o.time},</p>
               <p>items:</p>

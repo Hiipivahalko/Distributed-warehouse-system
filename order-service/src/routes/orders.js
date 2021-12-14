@@ -9,9 +9,6 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const queueEvents = new bullmq.QueueEvents(queue_name, {
-  connection: redisOptions
-});
 
 orderRouter.get('/', async (req, res) => {
   try {
@@ -24,70 +21,19 @@ orderRouter.get('/', async (req, res) => {
 })
 
 orderRouter.post('/', async (request, response) => {
-  await sleep(3000)
+  await sleep(2000)
   const order = request.body
   if (!order.user || !order.location || !order.items) {
     return response.status(400).json({error: 'order miss information'})
   }
 
   try {
-    const job = await createNewOrder(order)
-    //console.log('job:', job);
-    
-    //const job_res = await job.finished();
-
-    
-    return response.status(200).json({msg: 'redis works'})
+    await createNewOrder(order)
+    return response.status(200).json({msg: 'Order is now under process. Go check http://localhost:3000/order-history your order status'})
   } catch (err) {
     console.log(err.message);
-    return response.status(400).json({error: 'redis not work'})
+    return response.status(400).json({error: 'Could not handle order, check your order and try send again'})
   }
-  /*const result = await axios.get('http://inventory-service:4000/api/products')
-  const all_products = result.data
-  let updated_products = []
-
-  for (const order_product of order.items) {
-
-    let p = all_products.find(p => p.name == order_product.name)
-
-    // try to select the user location, if there is sufficient stock
-    let location = p.locations.find(l => 
-      (l.location === order.location) && (l.amount >= order_product.amount))
-
-    if (!location) {
-      // take item from ANY warehouse that has sufficient stock
-      location = p.locations.find(l => (l.amount >= order_product.amount))
-    }
-
-    if (!location) {
-          return response.status(410).json({message: "One or more products have run out of stock"})
-    } else {
-      p.locations = p.locations.filter(l => l.location !== location.location)
-      location.amount = location.amount - order_product.amount
-      p.locations.push(location)
-      updated_products.push(p)
-      
-      order_product.location = location.location
-    }
-  }
-
-  try {
-    const orderToSave = new Orders({
-      user: order.user,
-      location: order.location,
-      time: new Date().toISOString(),
-      items: order.items
-    })
-    const savedOrder = await orderToSave.save()
-    
-    for (const product of updated_products) {
-      await axios.post('http://inventory-service:4000/api/products', product)
-    }
-    return response.status(201).json(savedOrder)
-  } catch (error) {
-    console.log(error.message)
-    return response.status(500).send({error: `saving order failed in /api/order`})
-  }*/
 })
 
 orderRouter.delete('/clearHistory', async (requset, response) => {

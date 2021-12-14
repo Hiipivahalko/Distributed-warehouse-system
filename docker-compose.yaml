@@ -89,6 +89,8 @@ services:
       environment:
         - CHOKIDAR_USEPOLLING=true
         - MONGO_URI=${MONGO_URI}
+        - REDIS_HOST=${REDIS_HOST}
+        - REDIS_PORT=${REDIS_PORT}
       healthcheck:
         test: ["CMD", "wget", "--tries=1", "--spider", "http://order-service:5000"]
         interval: 60s

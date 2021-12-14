@@ -36,6 +36,25 @@ Content-Type: application/json
         "id": "61aa564431636a3db925c599",
         "name": "electric bicycle",
         "amount": 1
+      }
+    ]
+  }
+
+
+###
+# expect 201: success!
+POST http://localhost:5001/api/order
+Content-Type: application/json
+
+  {
+    "user": "Donald Duck",
+    "location": "Helsinki",
+    "time": "2021-12-04T13:16:20.514Z",
+    "items": [
+      {
+        "id": "61aa564431636a3db925c599",
+        "name": "electric bicycle",
+        "amount": 1
       },
       {
         "id": "61abcba34059e6a73a13dfc5",

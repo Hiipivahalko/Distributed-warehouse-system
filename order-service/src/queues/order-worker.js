@@ -2,11 +2,17 @@ const axios = require('axios')
 const Orders = require('../models/orders')
 
 const processOrder = async (order) => {
-  console.log('INSIDE PROCESS ORDER: ');
-  console.log('### : ', order);
   const result = await axios.get('http://inventory-service:4000/api/products')
   const all_products = result.data
   let updated_products = []
+
+  const orderToSave = new Orders({
+    user: order.user,
+    location: order.location,
+    time: new Date().toISOString(),
+    items: order.items,
+    status: 'failed'
+  })
 
   for (const order_product of order.items) {
 
@@ -23,7 +29,13 @@ const processOrder = async (order) => {
 
     if (!location) {
       // error
-      return {message: "One or more products have run out of stock"}
+      try {
+        const savedFailedOrder = await orderToSave.save()
+      } catch (error) {
+        console.log('error when saving failed order to DATABASE');
+        return {message: "error when saving failed order to DATABASE"}
+      }
+      return {message: "One or more products have run out of stock", savedFailedOrder}
     } else {
       p.locations = p.locations.filter(l => l.location !== location.location)
       location.amount = location.amount - order_product.amount
@@ -35,18 +47,13 @@ const processOrder = async (order) => {
   }
 
   try {
-    const orderToSave = new Orders({
-      user: order.user,
-      location: order.location,
-      time: new Date().toISOString(),
-      items: order.items
-    })
-    const savedOrder = await orderToSave.save()
+    
+    orderToSave.status = 'Success'
     
     for (const product of updated_products) {
       await axios.post('http://inventory-service:4000/api/products', product)
     }
-    //return response.status(201).json(savedOrder)
+    const savedOrder = await orderToSave.save()
     return {savedOrder}
   } catch (error) {
     console.error(error.message)

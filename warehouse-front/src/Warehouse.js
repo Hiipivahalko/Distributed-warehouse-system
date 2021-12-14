@@ -58,7 +58,7 @@ const Warehouse = () => {
   return (
     <>
       <div className='main-top'>
-        <button onClick={fectProducts} className='dark-btn'>Fetch products</button>
+        <button onClick={fectProducts} className='dark-btn'>Update products</button>
         <button onClick={initProducts} className='dark-btn'>Init products</button>
         {info !== '' ? <div className='info'>{info}</div>: null}
         {error !== '' ? <div className='error'>{error}</div>: null}

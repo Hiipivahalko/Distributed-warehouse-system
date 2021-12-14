@@ -12,7 +12,8 @@ const orderSchema = new mongoose.Schema({
   user: String,
   location: String,
   time: Date,
-  items: [productSchema]
+  items: [productSchema],
+  status: String
 })
 
 orderSchema.set('toJSON', {
