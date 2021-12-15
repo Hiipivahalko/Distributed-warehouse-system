@@ -6,14 +6,6 @@ const processOrder = async (order) => {
   const all_products = result.data
   let updated_products = []
 
-  const orderToSave = new Orders({
-    user: order.user,
-    location: order.location,
-    time: new Date().toISOString(),
-    items: order.items,
-    status: 'failed'
-  })
-
   for (const order_product of order.items) {
 
     let p = all_products.find(p => p.name == order_product.name)
@@ -30,7 +22,15 @@ const processOrder = async (order) => {
     if (!location) {
       // error
       try {
-        const savedFailedOrder = await orderToSave.save()
+        const failedOrder = new Orders({
+          user: order.user,
+          location: order.location,
+          time: new Date().toISOString(),
+          items: order.items,
+          status: 'failed'
+        })
+        await failedOrder.save()
+
       } catch (error) {
         console.log('error when saving failed order to DATABASE');
         return {message: "error when saving failed order to DATABASE"}
@@ -45,10 +45,16 @@ const processOrder = async (order) => {
       order_product.location = location.location
     }
   }
-
+  
+  // save product and update product amounts
   try {
-    
-    orderToSave.status = 'Success'
+    const orderToSave = new Orders({
+      user: order.user,
+      location: order.location,
+      time: new Date().toISOString(),
+      items: order.items,
+      status: 'Success'
+    })
     
     for (const product of updated_products) {
       await axios.post('http://inventory-service:4000/api/products', product)
