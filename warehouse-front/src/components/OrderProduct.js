@@ -35,7 +35,7 @@ const OrderProduct = ({ products, setProducts, setInfo, setError }) => {
       setInfo(msg)
       setTimeout(() => {
         setInfo('')
-      }, 5000)
+      }, 10000)
     } catch (error) {
       const msg = error.response.data.message ? error.response.data.message : ''
       setError(`ORDER FAILED:\n ${msg}`)

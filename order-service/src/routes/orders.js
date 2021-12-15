@@ -21,7 +21,6 @@ orderRouter.get('/', async (req, res) => {
 })
 
 orderRouter.post('/', async (request, response) => {
-  await sleep(2000)
   const order = request.body
   if (!order.user || !order.location || !order.items) {
     return response.status(400).json({error: 'order miss information'})

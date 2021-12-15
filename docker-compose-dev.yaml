@@ -27,6 +27,7 @@ services:
       command: redis-server --save 60 1 --loglevel warning
 
     front-end:
+      restart: always
       container_name: front-end
       build:
         context: ./warehouse-front
@@ -40,6 +41,12 @@ services:
         - CHOKIDAR_USEPOLLING=true
       env_file:
         - ./.env
+      healthcheck:
+        test: ["CMD", "wget", "--tries=1", "--spider", "http://front-end:3000"]
+        interval: 60s
+        timeout: 15s
+        retries: 3
+        start_period: 15s
     
     inventory-service:
       restart: always
