@@ -1,0 +1,32 @@
+# to convert figure -> https://sequencediagram.org/
+title User ordering products successfully
+
+User->Order-Service:Send products (Array) to array
+Order-Service->Job queue:Create new job (products order)
+Order-Service->Order-Service:Wait until job can be processed
+Job queue->Order-Service:Job can be processed now
+
+Order-Service->Inventory-Service:GET needed producs
+Inventory-Service->Load Balancer:GET needed producs
+Load Balancer->Invertory-Worker:GET needed producs
+Invertory-Worker->DB:GET needed producs
+
+Invertory-Worker<-DB:Return producs
+Load Balancer<-Invertory-Worker:Return producs
+Inventory-Service<-Load Balancer:Return producs
+Order-Service<-Inventory-Service:Return producs
+
+
+Order-Service->Inventory-Service:POST Order prodcuts
+Inventory-Service->Load Balancer:POST Order prodcuts
+Load Balancer->Invertory-Worker:POST Order prodcuts
+Invertory-Worker->DB:Order prodcuts
+
+Invertory-Worker<-DB:Success
+Load Balancer<-Invertory-Worker:Success
+Inventory-Service<-Load Balancer:Success
+Order-Service<-Inventory-Service:Success
+
+
+Order-Service->DB:Save order
+
