@@ -6,21 +6,21 @@ Order-Service->Job queue:Create new job (products order)
 Order-Service->Order-Service:Wait until job can be processed
 Job queue->Order-Service:Job can be processed now
 
-Order-Service->Inventory-Service:GET needed producs
-Inventory-Service->Load Balancer:GET needed producs
-Load Balancer->Invertory-Worker:GET needed producs
-Invertory-Worker->DB:GET needed producs
+Order-Service->Inventory-Service:GET needed products
+Inventory-Service->Load Balancer:GET needed products
+Load Balancer->Invertory-Worker:GET needed products
+Invertory-Worker->DB:GET needed products
 
-Invertory-Worker<-DB:Return producs
-Load Balancer<-Invertory-Worker:Return producs
-Inventory-Service<-Load Balancer:Return producs
-Order-Service<-Inventory-Service:Return producs
+Invertory-Worker<-DB:Return products
+Load Balancer<-Invertory-Worker:Return products
+Inventory-Service<-Load Balancer:Return products
+Order-Service<-Inventory-Service:Return products
 
 
-Order-Service->Inventory-Service:POST Order prodcuts
-Inventory-Service->Load Balancer:POST Order prodcuts
-Load Balancer->Invertory-Worker:POST Order prodcuts
-Invertory-Worker->DB:Order prodcuts
+Order-Service->Inventory-Service:POST Order products
+Inventory-Service->Load Balancer:POST Order products
+Load Balancer->Invertory-Worker:POST Order products
+Invertory-Worker->DB:Order products
 
 Invertory-Worker<-DB:Success
 Load Balancer<-Invertory-Worker:Success
@@ -29,4 +29,3 @@ Order-Service<-Inventory-Service:Success
 
 
 Order-Service->DB:Save order
-
