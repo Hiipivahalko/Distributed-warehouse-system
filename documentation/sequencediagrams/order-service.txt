@@ -1,31 +1,30 @@
 # to convert figure -> https://sequencediagram.org/
 title User ordering products successfully
 
-User->Order-Service:Send products (Array) to array
-Order-Service->Job queue:Create new job (products order)
-Order-Service->Order-Service:Wait until job can be processed
-Job queue->Order-Service:Job can be processed now
+User->Order-Service:POST new Order(name, \nlocation, products....) 
+Order-Service->Order-Service:Place new job in Queue
+Order-Service->User:OK! order will be \nprocessed
 
-Order-Service->Inventory-Service:GET needed products
-Inventory-Service->Load Balancer:GET needed products
-Load Balancer->Invertory-Worker:GET needed products
-Invertory-Worker->DB:GET needed products
+Order-Service->Order-Service:Fetch next Job \nfrom Queue
+Order-Service->Inventory-Service:GET ordered products
+Inventory-Service->Invertory-Worker:GET ordered products
+Invertory-Worker->DB:GET ordered products
 
 Invertory-Worker<-DB:Return products
-Load Balancer<-Invertory-Worker:Return products
-Inventory-Service<-Load Balancer:Return products
+Inventory-Service<-Invertory-Worker:Return products
 Order-Service<-Inventory-Service:Return products
 
+Order-Service->Order-Service:Ensure that product amount \nis not less than ordered amount
 
-Order-Service->Inventory-Service:POST Order products
-Inventory-Service->Load Balancer:POST Order products
-Load Balancer->Invertory-Worker:POST Order products
-Invertory-Worker->DB:Order products
+Order-Service->Order-Service:Deduct ordered amount \nfor each product
+
+Order-Service->Inventory-Service:POST updated products
+Inventory-Service->Invertory-Worker:POST products
+Invertory-Worker->DB:Save products
 
 Invertory-Worker<-DB:Success
-Load Balancer<-Invertory-Worker:Success
-Inventory-Service<-Load Balancer:Success
+Inventory-Service<-Invertory-Worker:Success
 Order-Service<-Inventory-Service:Success
 
+Order-Service->DB:Save Order
 
-Order-Service->DB:Save order
