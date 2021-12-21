@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Order = ({ order }) => {
-
   return (
     <div className='order'>
       {order.name}: {order.amount}

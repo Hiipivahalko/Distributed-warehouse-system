@@ -1,6 +1,5 @@
 const express = require('express')
 const cors = require('cors')
-const axios = require('axios')
 const mongoose = require('mongoose')
 const productsRouter = require('./routes/products')
 const morgan = require('morgan')
@@ -24,6 +23,7 @@ mongoose.connect(url)
     console.log('mongoURL:', url);
     console.log('error connecting to MongoDB:', error.message)
   })
+
 const { waitForDebugger } = require('inspector')
 
 

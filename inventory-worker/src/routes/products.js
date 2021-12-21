@@ -1,5 +1,3 @@
-// const axios = require('axios')
-
 const productsRouter = require('express').Router()
 const Products = require('../models/products')
 

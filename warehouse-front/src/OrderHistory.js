@@ -97,7 +97,6 @@ const OrderHistory = () => {
         <p>We dont have any orders yet</p>
       }
       </div>
-
     </>
   )
 }

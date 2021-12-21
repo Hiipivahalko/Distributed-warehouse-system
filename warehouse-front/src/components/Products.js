@@ -1,5 +1,4 @@
 import React from 'react';
-//import axios from 'axios';
 
 const Product = ({ product }) => {
   return (
@@ -13,7 +12,6 @@ const Product = ({ product }) => {
 }
 
 const Products = ({ products }) => {
-  //console.log('products', products);
   return (
     <div className='products'>
       <h3>Products:</h3>

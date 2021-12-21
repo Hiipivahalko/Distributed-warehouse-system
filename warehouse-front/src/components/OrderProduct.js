@@ -42,7 +42,6 @@ const OrderProduct = ({ products, setProducts, setInfo, setError }) => {
       setTimeout(() => {
         setError('')
       }, 10000)
-      //window.alert(`Error happened, ${msg}\n click ok to continue`)
     } finally {
       setFetching(false)
     }

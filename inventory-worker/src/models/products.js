@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 
-//console.log('connecting to', url)
 
 const init_data = [
   {
@@ -39,8 +38,6 @@ const init_data = [
 
 
 
-
-
 const warehouseSchema = new mongoose.Schema({
   location: String,
   amount: Number
@@ -60,4 +57,3 @@ productSchema.set('toJSON', {
 })
 
 module.exports = mongoose.model('Products', productSchema)
-
