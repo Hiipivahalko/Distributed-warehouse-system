@@ -9,6 +9,7 @@ import Warehouse from './Warehouse';
 import OrderHistory from './OrderHistory';
 import './styles/App.scss';
 
+// Menu Header
 const Header = () => (
   <div className='header'>
     <Link to='/'><h1>DisSys Warehouse</h1></Link>
@@ -21,6 +22,7 @@ const Header = () => (
   </div>
 )
 
+// Root page/content
 const Main = () => (
   <div className='main-container'>
     <Link to='/products-and-orders'>
@@ -32,6 +34,7 @@ const Main = () => (
   </div>
 )
 
+// Application core
 const App = () => {
   return (
     <div className='app'>

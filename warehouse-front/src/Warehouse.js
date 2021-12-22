@@ -4,6 +4,7 @@ import axios from 'axios';
 import OrderProduct from './components/OrderProduct';
 import Products from './components/Products'
 
+// content of Products & orders page
 const Warehouse = () => {
   const [ products, setProducts ] = useState(null);
   const [ info, setInfo ] = useState('')
@@ -48,6 +49,7 @@ const Warehouse = () => {
     console.log('data fetched');
   }
 
+  // set init products on warehouse
   const initProducts = async (event) => {
     event.preventDefault()
     await init_products();

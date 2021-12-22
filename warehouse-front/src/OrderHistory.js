@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
+// content of order history page
 const OrderHistory = () => {
 
   const [ orders, setOrders ] = useState([])
@@ -11,6 +11,7 @@ const OrderHistory = () => {
 
   const find_orders = async () => {
     try {
+      // api call to order-service
       const result = await axios.get(`${process.env.REACT_APP_ORDER_SERVICE_URL}/api/order/`);
       console.log('result status', result.status);
       if (result.status >= 400) {
@@ -33,16 +34,18 @@ const OrderHistory = () => {
     }
   }
 
+  // in page reload fecth orders
   useEffect( () => { 
     find_orders();
   }, [])
 
-
+  // fecth all orders
   const fecthOrders = async (event) => {
     event.preventDefault()
     find_orders();
   }
 
+  // clear all order history
   const clearHistory = async (event) => {
     event.preventDefault()
     try {
@@ -76,6 +79,7 @@ const OrderHistory = () => {
         { orders.length > 0 ? 
         <ul>
           {orders.map(o => 
+            // order history item
             <div className='history-item' key={o.id}>
               <p>"user": {o.user}</p>
               <p>"STATUS": {o.status}</p>

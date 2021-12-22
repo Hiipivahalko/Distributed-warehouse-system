@@ -10,9 +10,9 @@ const app = express()
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
-app.use(morgan(middleware.tinyLogger))
+app.use(morgan(middleware.tinyLogger)) // log api call status and information to console
 
-
+// all endpoints redirect messages/calls to inventory-workers
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')

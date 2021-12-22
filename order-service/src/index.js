@@ -10,7 +10,7 @@ const app = express()
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
-app.use(morgan(middleware.tinyLogger))
+app.use(morgan(middleware.tinyLogger)) // log api call status and information to console
 
 const url = process.env.MONGO_URI
 

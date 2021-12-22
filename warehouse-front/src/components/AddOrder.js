@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 
+// create order list from warehouse products
 const AddOrder = ({ products, setOrderProducts, orderProducts, fecthing }) => {
 
   const productTypes = [{name: ''}, ...products]
   const [ amount, setAmount ] = useState('')
 
+  // add product to current order list
   const handleOrderAdd = async (event) => {
     event.preventDefault()
     const product_name = event.target[0].value

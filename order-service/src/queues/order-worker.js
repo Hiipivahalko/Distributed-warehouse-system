@@ -1,7 +1,9 @@
 const axios = require('axios')
 const Orders = require('../models/orders')
 
+// when job get under work this function is called
 const processOrder = async (order) => {
+  // find all procuts
   const result = await axios.get('http://inventory-service:4000/api/products')
   const all_products = result.data
   let updated_products = []
@@ -20,7 +22,7 @@ const processOrder = async (order) => {
     }
 
     if (!location) {
-      // error
+      // error "One or more products have run out of stock"
       try {
         const failedOrder = new Orders({
           user: order.user,
@@ -57,6 +59,7 @@ const processOrder = async (order) => {
     })
     
     for (const product of updated_products) {
+      // update amount of product with POST call
       await axios.post('http://inventory-service:4000/api/products', product)
     }
     const savedOrder = await orderToSave.save()

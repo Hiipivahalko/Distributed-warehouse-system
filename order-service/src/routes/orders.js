@@ -5,6 +5,7 @@ const { createNewOrder } = require("../queues/orders-queue");
 const bullmq = require('bullmq')
 const { redisOptions, queue_name } = require('../config')
 
+// sleep function to test job queue and performance
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -27,7 +28,7 @@ orderRouter.post('/', async (request, response) => {
   }
 
   try {
-    await createNewOrder(order)
+    await createNewOrder(order) // creating new job for the job queue
     return response.status(200).json({msg: 'Order is now under process. Go check http://localhost:3000/order-history your order status'})
   } catch (err) {
     console.log(err.message);

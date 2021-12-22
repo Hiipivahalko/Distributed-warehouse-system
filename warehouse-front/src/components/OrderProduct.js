@@ -7,7 +7,7 @@ import OrderList from './OrderList';
 
 const OrderProduct = ({ products, setProducts, setInfo, setError }) => {
 
-  const [orderProducts, setOrderProducts] = useState([])
+  const [ orderProducts, setOrderProducts ] = useState([])
   const [ user, setUser ] = useState('')
   const [ fecthing, setFetching ] = useState(false)
 
@@ -16,6 +16,7 @@ const OrderProduct = ({ products, setProducts, setInfo, setError }) => {
     setFetching(true)
     const location = event.target[1].value
 
+    // user and location fields must have values
     if (user === '' || location === '') {
       window.alert('fill all fields')
       return;
@@ -27,7 +28,7 @@ const OrderProduct = ({ products, setProducts, setInfo, setError }) => {
       items: orderProducts
     }
 
-    try {
+    try { // try to order products -> sending order to job queue
       const res = await axios.post(`${process.env.REACT_APP_ORDER_SERVICE_URL}/api/order`, order)
       console.log(res.status, res.data);
       setOrderProducts([])
